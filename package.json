@@ -1,0 +1,16 @@
+{
+  "name": "jsalgorithms-xerocross",
+  "version": "1.0.0",
+  "description": "Some well-known algorithms implemented in JavaScript",
+  "main": "jsalgorithms.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "webpack": "^4.16.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Cross",
+  "license": "0BSD"
+}
