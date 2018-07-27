@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: "./src/algorithms.js",
+  entry: "./src/jsalgorithms-xerocross.js",
   output: {
     path: path.resolve(__dirname, "./"),
     filename: "jsalgorithms-xerocross.js",
