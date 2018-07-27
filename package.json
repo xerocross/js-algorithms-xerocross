@@ -19,5 +19,5 @@
     "build": "webpack"
   },
   "author": "Adam Cross",
-  "license": "0BSD"
+  "license": "SEE LICENSE IN LICENSE.md"
 }
