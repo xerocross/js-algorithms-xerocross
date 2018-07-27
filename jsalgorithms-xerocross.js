@@ -135,6 +135,13 @@ exports.default = {
       newArray[i] = getRandomInt(max);
     }
     return newArray;
+  },
+  print: function print(arr) {
+    var str = "";
+    for (var i = 0; i < arr.length; i++) {
+      str += arr[i] + " ";
+    }
+    return str;
   }
 };
 
@@ -148,7 +155,7 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.insertionSort = exports.bubbleSort = undefined;
+exports.mergesort = exports.insertionSort = exports.bubbleSort = undefined;
 
 var _bubblesort = __webpack_require__(2);
 
@@ -158,10 +165,15 @@ var _insertionSort = __webpack_require__(3);
 
 var _insertionSort2 = _interopRequireDefault(_insertionSort);
 
+var _mergesort = __webpack_require__(4);
+
+var _mergesort2 = _interopRequireDefault(_mergesort);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
 var insertionSort = exports.insertionSort = _insertionSort2.default.sort;
+var mergesort = exports.mergesort = _mergesort2.default.sort;
 
 /***/ }),
 /* 2 */
@@ -251,6 +263,156 @@ var insertNextElement = function insertNextElement(arr, compareFunction, sortedP
 
 exports.default = {
   sort: insertionSort
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _arrays = __webpack_require__(0);
+
+var _arrays2 = _interopRequireDefault(_arrays);
+
+var _arrayAlias = __webpack_require__(5);
+
+var _arrayAlias2 = _interopRequireDefault(_arrayAlias);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var buildArrayAlias = _arrayAlias2.default.buildArrayAlias;
+
+var mergesort = function mergesort(arr, compareFunction) {
+  var resultArray = buildArrayAlias(_arrays2.default.shallowCopy(arr));
+  mergesortRecursion(resultArray, compareFunction);
+  return resultArray.getRawArray();
+};
+
+// we expect arr to be an array alias
+var mergesortRecursion = function mergesortRecursion(arr, compareFunction) {
+  //console.log(arr);
+  console.log("recursion called on : " + _arrays2.default.print(arr.buildRawArray()));
+  var len = arr.length;
+  if (len <= 1) {
+    // do nothing
+    console.log("len = 1, do nothing");
+  } else if (len == 2) {
+    if (compareFunction(arr.get(0), arr.get(1)) > 0) {
+      var placeholder = arr.get(0);
+      arr.set(0, arr.get(1));
+      arr.set(1, placeholder);
+      console.log("swapping: " + _arrays2.default.print(arr.buildRawArray()));
+    }
+  } else {
+    var half = Math.floor(len / 2);
+    var arrL = buildArrayAlias(arr, 0, half);
+    var arrR = buildArrayAlias(arr, half, len);
+    console.log("splitting in two: " + _arrays2.default.print(arrL.buildRawArray()) + " | " + _arrays2.default.print(arrR.buildRawArray()));
+
+    mergesortRecursion(arrL, compareFunction);
+    // now arrL is sorted
+
+
+    mergesortRecursion(arrR, compareFunction);
+    // now arrR is sorted
+    var mergedArray = mergeTwoSortedArrays(arrL, arrR, compareFunction);
+    for (var i = 0; i < mergedArray.length; i++) {
+      arr.set(i, mergedArray.get(i));
+    }
+  }
+  //now arr is sorted
+  console.log("finished with: " + _arrays2.default.print(arr.buildRawArray()));
+  return arr;
+};
+
+// this function offers no guarantee of behavior
+// if either of the two input arrays is not sorted
+var mergeTwoSortedArrays = function mergeTwoSortedArrays(arrL, arrR, compareFunction) {
+  console.log("merging: " + _arrays2.default.print(arrL.buildRawArray()) + " | " + _arrays2.default.print(arrR.buildRawArray()));
+  var indexLeft = 0;
+  var indexRight = 0;
+  debugger;
+  var leftLength = arrL.length;
+  var rightLength = arrR.length;
+  var mergedArray = [];
+  while (indexLeft < leftLength && indexRight < rightLength) {
+    var comparisonValue = compareFunction(arrL.get(indexLeft), arrR.get(indexRight));
+    if (comparisonValue < 0) {
+      mergedArray.push(arrL.get(indexLeft));
+      indexLeft++;
+    } else {
+      mergedArray.push(arrR.get(indexRight));
+      indexRight++;
+    }
+  }
+  while (indexLeft < leftLength) {
+    mergedArray.push(arrL.get(indexLeft));
+    indexLeft++;
+  }
+  while (indexRight < rightLength) {
+    mergedArray.push(arrR.get(indexRight));
+    indexRight++;
+  }
+  return buildArrayAlias(mergedArray);
+};
+
+exports.default = {
+  sort: mergesort
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  buildArrayAlias: function buildArrayAlias(arr, indexL, indexR) {
+    if (typeof indexL == "undefined") {
+      indexL = 0;
+    }
+    if (typeof indexR == "undefined") {
+      indexR = arr.length;
+    }
+    var len = indexR - indexL;
+    var alias = {
+      isAlias: true,
+      get: function get(i) {
+        if (arr.isAlias) {
+          return arr.get(indexL + i);
+        }
+        return arr[indexL + i];
+      },
+      set: function set(i, val) {
+        if (arr.isAlias) {
+          arr.set(indexL + i, val);
+        }
+        arr[indexL + i] = val;
+      },
+      length: len,
+      getRawArray: function getRawArray() {
+        return arr;
+      },
+      buildRawArray: function buildRawArray() {
+        var rawArray = [];
+        for (var i = 0; i < len; i++) {
+          rawArray.push(this.get(i));
+        }
+        return rawArray;
+      }
+    };
+    return alias;
+  }
 };
 
 /***/ })

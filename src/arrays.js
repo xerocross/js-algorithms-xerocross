@@ -8,6 +8,25 @@ export default {
     }
     return true;
   },
+  isContains : function(arr, elt, equalsFunction) {
+    for (let i = 0; i < arr.length; i++) {
+      if (equalsFunction(arr[i], elt)){
+        return true;
+      }
+    }
+    return false;
+  },
+  isPermutation : function(arr1, arr2, equalsFunction) {
+    if (arr1.length != arr2.length) {
+      return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+      if (!this.isContains(arr2, arr1[i], equalsFunction)) {
+        return false;
+      }
+    }
+    return true;
+  },
   swap : function(arr, i, j) {
     let placeholder = arr[i];
     arr[i] = arr[j];
@@ -29,5 +48,12 @@ export default {
       newArray[i] = getRandomInt(max);
     }
     return newArray;
+  },
+  print : function(arr) {
+    var str = "";
+    for (let i = 0; i < arr.length; i++) {
+      str += arr[i] + " "
+    }
+    return str;
   }
 }
