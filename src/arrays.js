@@ -19,5 +19,15 @@ export default {
       copy[i] = arr[i];
     }
     return copy;
+  },
+  buildRandomSequence : function(length, max) {
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+    var newArray = [];
+    for (let i = 0; i < length; i++) {
+      newArray[i] = getRandomInt(max);
+    }
+    return newArray;
   }
 }
