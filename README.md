@@ -1,4 +1,4 @@
-# JSAlgorithms XeroCross
+# JS Algorithms XeroCross
 
 This is a collection of classic algorithms implemented in JavaScript.  There's
 nothing special or unusual here except perhaps that the author has tried to write the source
