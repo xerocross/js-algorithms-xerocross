@@ -13,10 +13,23 @@ You can include the stand-alone script file `jsalgorithms-xerocross.js` directly
 your HTML file.  This exposes a global called `xA` that contains all of the algorithms
 supported.
 
-The algorithms currently included are these:
-* insertionSort
-* bubbleSort
-* mergesort
+## The Algorithms
+
+
+### insertionSort
+
+`insertionSort(someArray, compareFunction)` returns a new sorted array.
+It does not mutate.
+
+### bubbleSort
+
+`bubbleSort(someArray, compareFunction)` returns a new sorted array.
+It does not mutate.
+
+### mergesort
+
+`mergesort(someArray, compareFunction)` returns a new sorted array.
+It does not mutate.
 
 ## Author
 
