@@ -16,6 +16,7 @@ supported.
 The algorithms currently included are these:
 * insertionSort
 * bubbleSort
+* mergesort
 
 ## Author
 
