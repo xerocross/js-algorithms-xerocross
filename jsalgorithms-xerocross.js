@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -104,15 +104,39 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.bubbleSort = undefined;
-
-var _bubblesort = __webpack_require__(1);
-
-var _bubblesort2 = _interopRequireDefault(_bubblesort);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
+exports.default = {
+  isSorted: function isSorted(arr, compareFunction) {
+    var oneBeforeLast = arr.length - 1;
+    for (var i = 0; i < oneBeforeLast; i++) {
+      if (compareFunction(arr[i], arr[i + 1]) > 0) {
+        return false;
+      }
+    }
+    return true;
+  },
+  swap: function swap(arr, i, j) {
+    var placeholder = arr[i];
+    arr[i] = arr[j];
+    arr[j] = placeholder;
+  },
+  shallowCopy: function shallowCopy(arr) {
+    var copy = [];
+    for (var i = 0; i < arr.length; i++) {
+      copy[i] = arr[i];
+    }
+    return copy;
+  },
+  buildRandomSequence: function buildRandomSequence(length, max) {
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+    var newArray = [];
+    for (var i = 0; i < length; i++) {
+      newArray[i] = getRandomInt(max);
+    }
+    return newArray;
+  }
+};
 
 /***/ }),
 /* 1 */
@@ -124,16 +148,47 @@ var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.insertionSort = exports.bubbleSort = undefined;
+
+var _bubblesort = __webpack_require__(2);
+
+var _bubblesort2 = _interopRequireDefault(_bubblesort);
+
+var _insertionSort = __webpack_require__(3);
+
+var _insertionSort2 = _interopRequireDefault(_insertionSort);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
+var insertionSort = exports.insertionSort = _insertionSort2.default.sort;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _arrays = __webpack_require__(0);
+
+var _arrays2 = _interopRequireDefault(_arrays);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // arr should be a JavaScript array of any type T
 // compareFunction is the usual thing -- a function
 // defined on pairs (T x,T y) that returns integers
 // this function does not mutate the array
 var bubblesort = function bubblesort(arr, compareFunction) {
-  var copyOfArray = copyTheArray(arr);
+  var copyOfArray = _arrays2.default.shallowCopy(arr);
   var indexOutOfOrder = comparisonPass(copyOfArray, compareFunction);
   while (indexOutOfOrder > -1) {
-    swap(copyOfArray, indexOutOfOrder - 1, indexOutOfOrder);
+    _arrays2.default.swap(copyOfArray, indexOutOfOrder - 1, indexOutOfOrder);
     indexOutOfOrder = comparisonPass(copyOfArray, compareFunction);
   }
   return copyOfArray;
@@ -142,7 +197,6 @@ var bubblesort = function bubblesort(arr, compareFunction) {
 var comparisonPass = function comparisonPass(arr, compareFunction) {
   var index = 1;
   var len = arr.length;
-
   for (; index < len; index++) {
     var comparisonValue = compareFunction(arr[index - 1], arr[index]);
     if (comparisonValue > 0) {
@@ -152,22 +206,51 @@ var comparisonPass = function comparisonPass(arr, compareFunction) {
   return -1;
 };
 
-var swap = function swap(arr, i, j) {
-  var placeholder = arr[i];
-  arr[i] = arr[j];
-  arr[j] = placeholder;
+exports.default = {
+  sort: bubblesort
 };
 
-var copyTheArray = function copyTheArray(arr) {
-  var copy = [];
-  for (var i = 0; i < arr.length; i++) {
-    copy[i] = arr[i];
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _arrays = __webpack_require__(0);
+
+var _arrays2 = _interopRequireDefault(_arrays);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var insertionSort = function insertionSort(arr, compareFunction) {
+  var sortedPartCutoffIndex = 1;
+  // The subsequence [0, sortedPartCutoffIndex) is
+  // sorted.  Note that we exclude the element at index
+  // sortedPartCutoffIndex
+  var copyOfArray = _arrays2.default.shallowCopy(arr);
+  var len = arr.length;
+  for (; sortedPartCutoffIndex < len; sortedPartCutoffIndex++) {
+    insertNextElement(copyOfArray, compareFunction, sortedPartCutoffIndex);
   }
-  return copy;
+  return copyOfArray;
+};
+
+var insertNextElement = function insertNextElement(arr, compareFunction, sortedPartCutoffIndex) {
+  var newIndexValue = sortedPartCutoffIndex;
+  while (newIndexValue > 0 && compareFunction(arr[newIndexValue - 1], arr[newIndexValue]) > 0) {
+    _arrays2.default.swap(arr, newIndexValue - 1, newIndexValue);
+    newIndexValue--;
+  }
+  return;
 };
 
 exports.default = {
-  sort: bubblesort
+  sort: insertionSort
 };
 
 /***/ })
