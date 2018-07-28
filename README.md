@@ -29,7 +29,7 @@ It does not mutate.
 ### mergesort
 
 `mergesort(someArray, compareFunction)` returns a new sorted array.
-It does not mutate.
+It does not mutate.  (The name is not a typo.  In the author's mind "mergesort" is one word.)
 
 ## Author
 
