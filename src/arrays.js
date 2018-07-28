@@ -28,9 +28,7 @@ export default {
     let mapFromArr1ToArr2 = [];
     outerloop: for (let i = 0; i < len; i++) {
       let elt = arr1[i];
-      //console.log("checking whether there is a match ");
       for (let j = 0; j < orderedArray.length; j++) {
-
         if ( equalsFunction(elt, arr2[orderedArray[j]]) ) {
           orderedArray.splice(j,1);
           continue outerloop;
