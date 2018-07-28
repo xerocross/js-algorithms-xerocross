@@ -8,7 +8,8 @@ test('can sort random arrays of integers', () => {
     let compareFunction = (x,y) => x - y;
     let resultingArray = InsertionSort.sort(testArray, compareFunction);
     let resultIsSorted = Arrays.isSorted(resultingArray, compareFunction);
-    if (resultIsSorted == false) {
+    let resultIsPermutation = Arrays.isPermutation(testArray, resultingArray, (x,y)=>x==y);
+    if (!(resultIsSorted && resultIsPermutation)) {
       finalResult = false;
     }
   }

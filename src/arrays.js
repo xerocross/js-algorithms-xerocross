@@ -20,10 +20,23 @@ export default {
     if (arr1.length != arr2.length) {
       return false;
     }
-    for (let i = 0; i < arr1.length; i++) {
-      if (!this.isContains(arr2, arr1[i], equalsFunction)) {
-        return false;
+    let len = arr1.length;
+    let orderedArray = [];
+    for (let i = 0; i < len; i++) {
+      orderedArray[i] = i;
+    }
+    let mapFromArr1ToArr2 = [];
+    outerloop: for (let i = 0; i < len; i++) {
+      let elt = arr1[i];
+      //console.log("checking whether there is a match ");
+      for (let j = 0; j < orderedArray.length; j++) {
+
+        if ( equalsFunction(elt, arr2[orderedArray[j]]) ) {
+          orderedArray.splice(j,1);
+          continue outerloop;
+        }
       }
+      return false;
     }
     return true;
   },
