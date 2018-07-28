@@ -18,8 +18,9 @@ export default {
       set : function(i, val) {
         if (arr.isAlias) {
           arr.set(indexL + i, val);
+        } else {
+          arr[indexL + i] = val;
         }
-        arr[indexL + i] = val;
       },
       length : len,
       getRawArray : function() {
