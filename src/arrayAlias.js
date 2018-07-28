@@ -32,6 +32,11 @@ export default {
           rawArray.push(this.get(i));
         }
         return rawArray;
+      },
+      swap : function(i, j) {
+        let placeholder = this.get(indexL + i);
+        this.set(indexL + i, this.get(indexL + j));
+        this.set(indexL + j, placeholder);
       }
     };
     return alias;
