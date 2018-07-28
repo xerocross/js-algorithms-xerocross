@@ -11,17 +11,17 @@ module.exports = {
     umdNamedDefine: true
   },
   module: {
-         rules: [
-             {
-                 test: /\.js$/,
-                 loader: 'babel-loader',
-                 query: {
-                     presets: ['es2015']
-                 }
-             }
-         ]
-     },
-   optimization: {
-     minimize: false
-   }
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }
+    ]
+  },
+  optimization: {
+    minimize: false
+  }
 }
