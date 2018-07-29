@@ -2,7 +2,7 @@
   "name": "js-algorithms-xerocross",
   "version": "0.1.0",
   "description": "Some well-known algorithms implemented in JavaScript.",
-  "main": "jsalgorithms-xerocross.js",
+  "main": "js-algorithms-xerocross.js",
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",

@@ -480,9 +480,9 @@ var _arrayAlias = __webpack_require__(1);
 
 var _arrayAlias2 = _interopRequireDefault(_arrayAlias);
 
-var _simpleAssert = __webpack_require__(7);
+var _weAssert = __webpack_require__(7);
 
-var _simpleAssert2 = _interopRequireDefault(_simpleAssert);
+var _weAssert2 = _interopRequireDefault(_weAssert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -519,16 +519,16 @@ var partition = function partition(arr, lo, high, compareFunction) {
       j--;
     } while (compareFunction(pivot, arr[j]) < 0);
     // similarly, j >= 0 and arr[k] > pivot for all k > j
-    _simpleAssert2.default.that(compareFunction(arr[i], pivot) >= 0 && compareFunction(arr[j], pivot) <= 0, "arr[i] >= pivot and arr[j] <= pivot");
+    _weAssert2.default.that(compareFunction(arr[i], pivot) >= 0 && compareFunction(arr[j], pivot) <= 0, "arr[i] >= pivot and arr[j] <= pivot");
 
     if (i < j) {
-      _simpleAssert2.default.that(lo <= i && i <= high, "lo <= i && i <= high");
-      _simpleAssert2.default.that(lo <= j && j <= high, "lo <= j && j <= high");
+      _weAssert2.default.that(lo <= i && i <= high, "lo <= i && i <= high");
+      _weAssert2.default.that(lo <= j && j <= high, "lo <= j && j <= high");
       _arrays2.default.swap(arr, i, j);
     } else {
       // since we always choose the pivot at lo, we know that
       // j never goes left further than lo.
-      _simpleAssert2.default.that(lo <= j, "lo <= j");
+      _weAssert2.default.that(lo <= j, "lo <= j");
       // therefore j is a partition point of the array between
       // lo and high
       return j;

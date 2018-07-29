@@ -2,10 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: "./src/jsalgorithms-xerocross.js",
+  entry: "./src/js-algorithms-xerocross.js",
   output: {
     path: path.resolve(__dirname, "./"),
-    filename: "jsalgorithms-xerocross.js",
+    filename: "js-algorithms-xerocross.js",
     library: "xA",
     libraryTarget: "umd",
     umdNamedDefine: true
