@@ -20,9 +20,13 @@ execute `yarn run build`.
 
 ## Deployment
 
-You can include the stand-alone script file `jsalgorithms-xerocross.js` directly in
+You can include the stand-alone script file `js-algorithms-xerocross.js` directly in
 your HTML file.  This exposes a global called `xA` that contains all of the algorithms
 supported.
+
+For use as a module, just install using `npm install js-algorithms-xerocross.js`.
+The module exposes each algorithm individually and also an object `xA` that
+contains all of them.
 
 ## The Algorithms
 
