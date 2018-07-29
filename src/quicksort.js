@@ -1,6 +1,6 @@
 import Arrays from "./arrays.js"
 import ArrayAlias from "./arrayAlias.js"
-import weAssert from "./simple-assert.js"
+import weAssert from "./we-assert.js"
 
 var quicksort = function (arr, compareFunction) {
   let arrayCopy = Arrays.shallowCopy(arr);
