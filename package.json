@@ -12,11 +12,12 @@
     "jest": "^23.4.1",
     "regenerator-runtime": "^0.12.0",
     "webpack": "^4.16.2",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "xero-random-sequences": "^1.0.0"
   },
-  "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/xerocross/js-algorithms-xerocross.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xerocross/js-algorithms-xerocross.git"
   },
   "scripts": {
     "test": "jest",
