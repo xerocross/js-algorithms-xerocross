@@ -1,6 +1,6 @@
 {
   "name": "js-algorithms-xerocross",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Some well-known algorithms implemented in JavaScript.",
   "main": "js-algorithms-xerocross.js",
   "dependencies": {},

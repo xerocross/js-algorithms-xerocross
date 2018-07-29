@@ -7,3 +7,10 @@ export const bubbleSort = BubbleSort.sort;
 export const insertionSort = InsertionSort.sort;
 export const mergesort = Mergesort.sort;
 export const quicksort = Quicksort.sort;
+
+export const xA = {
+  bubbleSort : BubbleSort.sort,
+  insertionSort : InsertionSort.sort,
+  mergesort : Mergesort.sort,
+  quicksort : Quicksort.sort
+}

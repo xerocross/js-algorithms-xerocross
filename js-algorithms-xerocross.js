@@ -240,7 +240,7 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.quicksort = exports.mergesort = exports.insertionSort = exports.bubbleSort = undefined;
+exports.xA = exports.quicksort = exports.mergesort = exports.insertionSort = exports.bubbleSort = undefined;
 
 var _bubblesort = __webpack_require__(3);
 
@@ -264,6 +264,13 @@ var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
 var insertionSort = exports.insertionSort = _insertionSort2.default.sort;
 var mergesort = exports.mergesort = _mergesort2.default.sort;
 var quicksort = exports.quicksort = _quicksort2.default.sort;
+
+var xA = exports.xA = {
+  bubbleSort: _bubblesort2.default.sort,
+  insertionSort: _insertionSort2.default.sort,
+  mergesort: _mergesort2.default.sort,
+  quicksort: _quicksort2.default.sort
+};
 
 /***/ }),
 /* 3 */
