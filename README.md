@@ -31,6 +31,11 @@ It does not mutate.
 `mergesort(someArray, compareFunction)` returns a new sorted array.
 It does not mutate.  (The name is not a typo.  In the author's mind "mergesort" is one word.)
 
+### quicksort
+
+`quicksort(someArray, compareFunction)` returns a new sorted array.
+It does not mutate.
+
 ## Author
 
 This is a one-man project written by Adam Cross
