@@ -1,17 +1,18 @@
 import InsertionSort from "./insertionSort.js";
 import Arrays from "./arrays.js"
+import TestHelper from "./test-helper.js"
+import {RandomSequences1, RandomSequences2} from "xero-random-sequences"
 
-test('can sort random arrays of integers', () => {
-  var finalResult = true;
-  for(let len = 0; len < 20; len++) {
-    let testArray = Arrays.buildRandomSequence(len, 1000);
-    let compareFunction = (x,y) => x - y;
-    let resultingArray = InsertionSort.sort(testArray, compareFunction);
-    let resultIsSorted = Arrays.isSorted(resultingArray, compareFunction);
-    let resultIsPermutation = Arrays.isPermutation(testArray, resultingArray, (x,y)=>x==y);
-    if (!(resultIsSorted && resultIsPermutation)) {
-      finalResult = false;
-    }
-  }
-  expect(finalResult).toBe(true);
+var sortFunction = InsertionSort.sort;
+
+test('can sort RandomSequences1', () => {
+  let compareFunction = (x,y) => x - y;
+  let result = TestHelper.testSortFunction(RandomSequences1, sortFunction, compareFunction);
+  expect(result).toBe(true);
+});
+
+test('can sort RandomSequences2', () => {
+  let compareFunction = (x,y) => x - y;
+  let result = TestHelper.testSortFunction(RandomSequences2, sortFunction, compareFunction);
+  expect(result).toBe(true);
 });
