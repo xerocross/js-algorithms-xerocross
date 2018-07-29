@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,6 +111,36 @@ exports.default = {
       if (compareFunction(arr[i], arr[i + 1]) > 0) {
         return false;
       }
+    }
+    return true;
+  },
+  isContains: function isContains(arr, elt, equalsFunction) {
+    for (var i = 0; i < arr.length; i++) {
+      if (equalsFunction(arr[i], elt)) {
+        return true;
+      }
+    }
+    return false;
+  },
+  isPermutation: function isPermutation(arr1, arr2, equalsFunction) {
+    if (arr1.length != arr2.length) {
+      return false;
+    }
+    var len = arr1.length;
+    var orderedArray = [];
+    for (var i = 0; i < len; i++) {
+      orderedArray[i] = i;
+    }
+    var mapFromArr1ToArr2 = [];
+    outerloop: for (var _i = 0; _i < len; _i++) {
+      var elt = arr1[_i];
+      for (var j = 0; j < orderedArray.length; j++) {
+        if (equalsFunction(elt, arr2[orderedArray[j]])) {
+          orderedArray.splice(j, 1);
+          continue outerloop;
+        }
+      }
+      return false;
     }
     return true;
   },
@@ -155,28 +185,88 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mergesort = exports.insertionSort = exports.bubbleSort = undefined;
+exports.default = {
+  buildArrayAlias: function buildArrayAlias(arr, indexL, indexR) {
+    if (typeof indexL == "undefined") {
+      indexL = 0;
+    }
+    if (typeof indexR == "undefined") {
+      indexR = arr.length;
+    }
+    var len = indexR - indexL;
+    var alias = {
+      isAlias: true,
+      get: function get(i) {
+        if (arr.isAlias) {
+          return arr.get(indexL + i);
+        }
+        return arr[indexL + i];
+      },
+      set: function set(i, val) {
+        if (arr.isAlias) {
+          arr.set(indexL + i, val);
+        } else {
+          arr[indexL + i] = val;
+        }
+      },
+      length: len,
+      getRawArray: function getRawArray() {
+        return arr;
+      },
+      buildRawArray: function buildRawArray() {
+        var rawArray = [];
+        for (var i = 0; i < len; i++) {
+          rawArray.push(this.get(i));
+        }
+        return rawArray;
+      },
+      swap: function swap(i, j) {
+        var placeholder = this.get(i);
+        this.set(i, this.get(j));
+        this.set(j, placeholder);
+      }
+    };
+    return alias;
+  }
+};
 
-var _bubblesort = __webpack_require__(2);
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.quicksort = exports.mergesort = exports.insertionSort = exports.bubbleSort = undefined;
+
+var _bubblesort = __webpack_require__(3);
 
 var _bubblesort2 = _interopRequireDefault(_bubblesort);
 
-var _insertionSort = __webpack_require__(3);
+var _insertionSort = __webpack_require__(4);
 
 var _insertionSort2 = _interopRequireDefault(_insertionSort);
 
-var _mergesort = __webpack_require__(4);
+var _mergesort = __webpack_require__(5);
 
 var _mergesort2 = _interopRequireDefault(_mergesort);
+
+var _quicksort = __webpack_require__(6);
+
+var _quicksort2 = _interopRequireDefault(_quicksort);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var bubbleSort = exports.bubbleSort = _bubblesort2.default.sort;
 var insertionSort = exports.insertionSort = _insertionSort2.default.sort;
 var mergesort = exports.mergesort = _mergesort2.default.sort;
+var quicksort = exports.quicksort = _quicksort2.default.sort;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -223,7 +313,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -266,7 +356,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -280,68 +370,71 @@ var _arrays = __webpack_require__(0);
 
 var _arrays2 = _interopRequireDefault(_arrays);
 
-var _arrayAlias = __webpack_require__(5);
+var _arrayAlias = __webpack_require__(1);
 
 var _arrayAlias2 = _interopRequireDefault(_arrayAlias);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var buildArrayAlias = _arrayAlias2.default.buildArrayAlias;
+// array alias is a convenience that also helps
+// reduce the explosion of indexes that can result
+// from trying to implement mergesort
+// basically it is just a way to interact with a
+// subsequence of an array almost as if it were
+// a distinct array from 0 to n
 
 var mergesort = function mergesort(arr, compareFunction) {
   var resultArray = buildArrayAlias(_arrays2.default.shallowCopy(arr));
   mergesortRecursion(resultArray, compareFunction);
-  return resultArray.getRawArray();
+  return resultArray.buildRawArray();
 };
 
 // we expect arr to be an array alias
 var mergesortRecursion = function mergesortRecursion(arr, compareFunction) {
-  //console.log(arr);
-  console.log("recursion called on : " + _arrays2.default.print(arr.buildRawArray()));
   var len = arr.length;
   if (len <= 1) {
     // do nothing
-    console.log("len = 1, do nothing");
   } else if (len == 2) {
     if (compareFunction(arr.get(0), arr.get(1)) > 0) {
       var placeholder = arr.get(0);
       arr.set(0, arr.get(1));
       arr.set(1, placeholder);
-      console.log("swapping: " + _arrays2.default.print(arr.buildRawArray()));
     }
+    // now the pair is sorted
   } else {
     var half = Math.floor(len / 2);
     var arrL = buildArrayAlias(arr, 0, half);
     var arrR = buildArrayAlias(arr, half, len);
-    console.log("splitting in two: " + _arrays2.default.print(arrL.buildRawArray()) + " | " + _arrays2.default.print(arrR.buildRawArray()));
-
     mergesortRecursion(arrL, compareFunction);
     // now arrL is sorted
-
-
     mergesortRecursion(arrR, compareFunction);
     // now arrR is sorted
     var mergedArray = mergeTwoSortedArrays(arrL, arrR, compareFunction);
+    // mergedArray is actually a truly distinct array
+    // As of this writing, I am not aware of any new
+    // to do this kind of merging in place
+    // so we must
     for (var i = 0; i < mergedArray.length; i++) {
       arr.set(i, mergedArray.get(i));
     }
   }
   //now arr is sorted
-  console.log("finished with: " + _arrays2.default.print(arr.buildRawArray()));
   return arr;
 };
 
 // this function offers no guarantee of behavior
 // if either of the two input arrays is not sorted
 var mergeTwoSortedArrays = function mergeTwoSortedArrays(arrL, arrR, compareFunction) {
-  console.log("merging: " + _arrays2.default.print(arrL.buildRawArray()) + " | " + _arrays2.default.print(arrR.buildRawArray()));
   var indexLeft = 0;
   var indexRight = 0;
-  debugger;
   var leftLength = arrL.length;
   var rightLength = arrR.length;
   var mergedArray = [];
   while (indexLeft < leftLength && indexRight < rightLength) {
+    // if there are still elements left in both the right array
+    // and the left array then we have to compare them and pick
+    // the lesser one
     var comparisonValue = compareFunction(arrL.get(indexLeft), arrR.get(indexRight));
     if (comparisonValue < 0) {
       mergedArray.push(arrL.get(indexLeft));
@@ -351,6 +444,8 @@ var mergeTwoSortedArrays = function mergeTwoSortedArrays(arrL, arrR, compareFunc
       indexRight++;
     }
   }
+  // only one of the following two while conditions
+  // should execute
   while (indexLeft < leftLength) {
     mergedArray.push(arrL.get(indexLeft));
     indexLeft++;
@@ -367,7 +462,86 @@ exports.default = {
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _arrays = __webpack_require__(0);
+
+var _arrays2 = _interopRequireDefault(_arrays);
+
+var _arrayAlias = __webpack_require__(1);
+
+var _arrayAlias2 = _interopRequireDefault(_arrayAlias);
+
+var _simpleAssert = __webpack_require__(7);
+
+var _simpleAssert2 = _interopRequireDefault(_simpleAssert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var quicksort = function quicksort(arr, compareFunction) {
+  var arrayCopy = _arrays2.default.shallowCopy(arr);
+  quicksortRecursion(arrayCopy, 0, arrayCopy.length - 1, compareFunction);
+  return arrayCopy;
+};
+
+var quicksortRecursion = function quicksortRecursion(arr, lo, high, compareFunction) {
+  if (lo < high) {
+    var p = partition(arr, lo, high, compareFunction);
+    quicksortRecursion(arr, lo, p, compareFunction);
+    quicksortRecursion(arr, p + 1, high, compareFunction);
+  }
+};
+
+// the input indexes lo and high are both inclusive, so
+// here we will partition the sub-sequence of elements
+// arr_lo, ..., arr_high
+var partition = function partition(arr, lo, high, compareFunction) {
+  var i = lo - 1;
+  var j = high + 1;
+  var pivot = arr[lo];
+  while (true) {
+    do {
+      i++;
+    } while (compareFunction(arr[i], pivot) < 0);
+    // since pivot is a value attained in the array,
+    // the while loop condition definitely evaluates
+    // false before reaching the end of the array.
+    // Now we have arr[k] < pivot for all k < i
+    do {
+      j--;
+    } while (compareFunction(pivot, arr[j]) < 0);
+    // similarly, j >= 0 and arr[k] > pivot for all k > j
+    _simpleAssert2.default.that(compareFunction(arr[i], pivot) >= 0 && compareFunction(arr[j], pivot) <= 0, "arr[i] >= pivot and arr[j] <= pivot");
+
+    if (i < j) {
+      _simpleAssert2.default.that(lo <= i && i <= high, "lo <= i && i <= high");
+      _simpleAssert2.default.that(lo <= j && j <= high, "lo <= j && j <= high");
+      _arrays2.default.swap(arr, i, j);
+    } else {
+      // since we always choose the pivot at lo, we know that
+      // j never goes left further than lo.
+      _simpleAssert2.default.that(lo <= j, "lo <= j");
+      // therefore j is a partition point of the array between
+      // lo and high
+      return j;
+    }
+  }
+};
+
+exports.default = {
+  sort: quicksort
+};
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -377,41 +551,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  buildArrayAlias: function buildArrayAlias(arr, indexL, indexR) {
-    if (typeof indexL == "undefined") {
-      indexL = 0;
+  that: function that(statement, message) {
+    if (!statement) {
+      throw new Error("false assertion: " + message);
     }
-    if (typeof indexR == "undefined") {
-      indexR = arr.length;
-    }
-    var len = indexR - indexL;
-    var alias = {
-      isAlias: true,
-      get: function get(i) {
-        if (arr.isAlias) {
-          return arr.get(indexL + i);
-        }
-        return arr[indexL + i];
-      },
-      set: function set(i, val) {
-        if (arr.isAlias) {
-          arr.set(indexL + i, val);
-        }
-        arr[indexL + i] = val;
-      },
-      length: len,
-      getRawArray: function getRawArray() {
-        return arr;
-      },
-      buildRawArray: function buildRawArray() {
-        var rawArray = [];
-        for (var i = 0; i < len; i++) {
-          rawArray.push(this.get(i));
-        }
-        return rawArray;
-      }
-    };
-    return alias;
   }
 };
 

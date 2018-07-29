@@ -34,9 +34,9 @@ export default {
         return rawArray;
       },
       swap : function(i, j) {
-        let placeholder = this.get(indexL + i);
-        this.set(indexL + i, this.get(indexL + j));
-        this.set(indexL + j, placeholder);
+        let placeholder = this.get(i);
+        this.set(i, this.get(j));
+        this.set(j, placeholder);
       }
     };
     return alias;

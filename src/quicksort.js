@@ -1,108 +1,56 @@
 import Arrays from "./arrays.js"
 import ArrayAlias from "./arrayAlias.js"
+import weAssert from "./simple-assert.js"
 
 var quicksort = function (arr, compareFunction) {
   let arrayCopy = Arrays.shallowCopy(arr);
-  let arrayAlias = ArrayAlias.buildArrayAlias(arrayCopy);
-  partitionRecursively(arrayAlias, compareFunction);
+  quicksortRecursion(arrayCopy, 0, arrayCopy.length - 1, compareFunction)
   return arrayCopy;
 }
 
-var partitionRecursively = function (arrayAlias, compareFunction) {
-  console.log("partitioning: " + Arrays.print(arrayAlias.buildRawArray()));
-  let pivotValue = arrayAlias.get(0);
-  let pivotIndex = partitionAtPivot(arrayAlias, pivotValue, compareFunction);
-  let leftArrayAlias = ArrayAlias.buildArrayAlias(arrayAlias, 0, pivotIndex);
-  if (leftArrayAlias.length > 1) {
-    partitionRecursively(leftArrayAlias, compareFunction)
-  }
-  let rightArrayAlias = ArrayAlias.buildArrayAlias(arrayAlias, pivotIndex + 1, arrayAlias.length);
-  if (rightArrayAlias.length > 1) {
-    partitionRecursively(rightArrayAlias, compareFunction)
+var quicksortRecursion = function (arr, lo, high, compareFunction) {
+  if (lo < high) {
+    var p = partition(arr, lo, high, compareFunction);
+    quicksortRecursion(arr, lo, p, compareFunction);
+    quicksortRecursion(arr, p + 1, high, compareFunction);
   }
 }
 
-
-// this function swaps elements and returns and index partitionIndex
-// so that the element at index partitionIndex is in correct
-// position
-var partitionAtPivot = function (arrayAlias, pivotValue, compareFunction) {
-  let len = arrayAlias.length;
-  let indexOfLastElt = len - 1;
-  let indexLeft = 0;
-  let indexRight = indexOfLastElt;
-  let pivotIndex;
-  console.log("pivotValue " + pivotValue)
-  while (indexLeft < indexRight) {
-    console.log("1");
-    while (indexLeft < indexRight)
-    {
-      let comparisonValue = compareFunction(arrayAlias.get(indexLeft), pivotValue);
-      console.log("1.1 " + indexLeft);
-
-      if (comparisonValue <= 0) {
-        if (comparisonValue == 0) {
-          pivotIndex = indexLeft;
-        }
-        indexLeft++;
-      } else {
-        break;
-      }
-    }
-    while (indexRight > indexLeft) {
-      let comparisonValue = compareFunction(pivotValue, arrayAlias.get(indexRight));
-      console.log("1.3 " + indexRight);
-      if (comparisonValue <= 0) {
-        if (comparisonValue == 0) {
-          pivotIndex = indexRight;
-        }
-        indexRight--;
-      } else {
-        break;
-      }
-    }
-    console.log("2");
-    if (indexLeft < indexRight) {
-      console.log("2.5");
-      arrayAlias.swap(indexLeft, indexRight);
-    }
-
-    console.log("3 ", indexLeft + " : " + indexRight);
-    console.log("current: " + Arrays.print(arrayAlias.buildRawArray()));
-  }
-  console.log("4");
-
-  let meetValue = indexLeft;
+// the input indexes lo and high are both inclusive, so
+// here we will partition the sub-sequence of elements
+// arr_lo, ..., arr_high
+var partition = function (arr, lo, high, compareFunction) {
+  let i = lo - 1;
+  let j = high + 1;
+  var pivot = arr[lo];
+  while (true) {
+    do {
+      i++;
+    } while (compareFunction(arr[i], pivot) < 0)
+    // since pivot is a value attained in the array,
+    // the while loop condition definitely evaluates
+    // false before reaching the end of the array.
+    // Now we have arr[k] < pivot for all k < i
+    do {
+      j--;
+    } while (compareFunction(pivot, arr[j]) < 0)
+    // similarly, j >= 0 and arr[k] > pivot for all k > j
+    weAssert.that(compareFunction(arr[i], pivot) >= 0 && compareFunction(arr[j], pivot) <= 0, "arr[i] >= pivot and arr[j] <= pivot");
 
 
-
-
-  let newPartitionIndex = pivotIndex;
-  if (meetValue >= pivotIndex) {
-    if (compareFunction(pivotValue, arrayAlias.get(meetValue)) > 0) {
-      console.log("a")
-      arrayAlias.swap(pivotIndex, meetValue);
-      newPartitionIndex = meetValue;
-    }
-  } else if (meetValue <= pivotIndex) {
-    if (compareFunction(arrayAlias.get(meetValue), pivotValue) > 0) {
-      console.log("b")
-      arrayAlias.swap(pivotIndex, meetValue);
-      newPartitionIndex = meetValue;
+    if (i < j) {
+      weAssert.that(lo <= i && i <= high, "lo <= i && i <= high");
+      weAssert.that(lo <= j && j <= high, "lo <= j && j <= high");
+      Arrays.swap(arr, i, j);
+    } else {
+      // since we always choose the pivot at lo, we know that
+      // j never goes left further than lo.
+      weAssert.that(lo <= j, "lo <= j");
+      // therefore j is a partition point of the array between
+      // lo and high
+      return j;
     }
   }
-  // else {
-  //   console.log("c")
-  //   arrayAlias.swap(pivotIndex, newPartitionIndex);
-  // }
-
-
-
-
-
-  console.log("partitioning result: " + Arrays.print(arrayAlias.buildRawArray()));
-  console.log("partition index: " + newPartitionIndex);
-  return newPartitionIndex;
 }
 
 export default {
