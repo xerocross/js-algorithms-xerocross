@@ -7,6 +7,17 @@ files very verbosely so they are easy to read for understanding.
 The purpose of this is mainly for the author's own practice, but the source files
 may also be of educational use.
 
+## Development and Testing
+
+After you have cloned this repository, you need NPM.  While not strictly
+necessary, we also recommend using Yarn.  To install all the necessary node modules
+execute the command `yarn install`.
+
+To run the full suite of tests, execute `yarn run test`.
+
+If you make any changes to the source files, to rebuild the distributable file
+execute `yarn run build`.
+
 ## Deployment
 
 You can include the stand-alone script file `jsalgorithms-xerocross.js` directly in
@@ -15,15 +26,14 @@ supported.
 
 ## The Algorithms
 
+### bubbleSort
+
+`bubbleSort(someArray, compareFunction)` returns a new sorted array.
+It does not mutate.
 
 ### insertionSort
 
 `insertionSort(someArray, compareFunction)` returns a new sorted array.
-It does not mutate.
-
-### bubbleSort
-
-`bubbleSort(someArray, compareFunction)` returns a new sorted array.
 It does not mutate.
 
 ### mergesort
