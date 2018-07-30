@@ -1,8 +1,8 @@
 {
-  "name": "js-algorithms-xerocross",
-  "version": "0.2.0",
+  "name": "xero-algorithms",
+  "version": "0.3.0",
   "description": "Some well-known algorithms implemented in JavaScript.",
-  "main": "js-algorithms-xerocross.js",
+  "main": "xero-algorithms.js",
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xerocross/js-algorithms-xerocross.git"
+    "url": "https://github.com/xerocross/js-xero-algorithms.git"
   },
   "scripts": {
     "test": "jest",
