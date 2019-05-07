@@ -1,6 +1,6 @@
 {
   "name": "xero-algorithms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Some well-known algorithms implemented in JavaScript.",
   "main": "xero-algorithms.js",
   "dependencies": {
