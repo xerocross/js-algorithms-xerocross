@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
     entry : "./src/xero-algorithms.js",
     output : {
+        globalObject : "this",
         path : path.resolve(__dirname, "./"),
         filename : "xero-algorithms.js",
         library : "xA",
@@ -22,6 +23,6 @@ module.exports = {
         ]
     },
     optimization : {
-        minimize : false
+        minimize : true
     }
 }
