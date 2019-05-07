@@ -17,15 +17,15 @@ test('can sort RandomSequences2', () => {
     expect(result).toBe(true);
 });
 
-test('if first arg is not an array, throws error', () => {
-    let compareFunction = (x,y) => x - y;
-    expect(function(){
-        TestHelper.testSortFunction("not an array", sortFunction, compareFunction);
-    }).toThrow();
-});
+// test('if first arg is not an array, throws error', () => {
+//     let compareFunction = (x,y) => x - y;
+//     expect(function(){
+//         TestHelper.testSortFunction("not an array", sortFunction, compareFunction);
+//     }).toThrow();
+// });
 
-test('if second arg is not a function, throws error', () => {
-    expect(function(){
-        TestHelper.testSortFunction([1,5,4], sortFunction, "compareFunction");
-    }).toThrow();
-});
+// test('if second arg is not a function, throws error', () => {
+//     expect(function(){
+//         TestHelper.testSortFunction([1,5,4], sortFunction, "compareFunction");
+//     }).toThrow();
+// });
